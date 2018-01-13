@@ -1,0 +1,86 @@
+int maxSubSum1(int a[],int size )  //O(n^3) 
+{  
+    int maxSum = 0;  
+    for ( int i = 0; i < size; i++ )  
+        for ( int j = 1; j < size; j++ )   
+        {  
+             int thisSum = 0;  
+             for ( int k = i; k <= j; k++ )  
+                 thisSum += a[k];  
+             if ( thisSum > maxSum )  
+                maxSum = thisSum;  
+        }  
+    return maxSum;  
+} 
+
+int max_sub(int a[],int size)   //O(n^2) 
+{  
+　　int i,j,v;  
+    int max=a[0];  
+　　for(i=0;i<size;i++)  
+　　{  
+　　　　v=0;  
+　　　　for(j=i;j<size;j++)  
+　　　　{  
+　　　　　　v=v+a[j];         //Sum(i, j+1) = Sum(i, j) + A[j+1]  
+　　　　　　if(v>max)  max=v;  
+　　　　}  
+　　}  
+　　return max;  
+} 
+
+int max_sub2(int a[], int size)   //O(n) 
+{  
+　　int i,max=0,temp_sum=0;  
+　　for(i=0;i<size;i++)  
+　　{  
+　　　　　　temp_sum+=a[i];  
+　　　　　　if(temp_sum>max)  
+　　　　　　　　max=temp_sum;  
+　　　　　　else if(temp_sum<0)  
+　　　　　　　　temp_sum=0;  
+　　}  
+　　return max;  
+} 
+
+/** 
+ * Recursive maximum contiguous subsequence sum algorithm. 
+ * (弓拷恷寄銭偬徨才麻隈。)
+ * Finds maximum sum in subarray spanning a[left..right]. 
+ * Does not attempt to maintain actual best sequence. 
+ */  
+int maxSumRec( const vector<int> & a, int left, int right )  //蛍嵶隈 
+{  
+    if( left == right )  // Base case  
+        if( a[ left ] > 0 )  
+            return a[ left ];  
+        else  
+            return 0;  
+    int center = ( left + right ) / 2;  
+    int maxLeftSum  = maxSumRec( a, left, center );  
+    int maxRightSum = maxSumRec( a, center + 1, right );  
+    int maxLeftBorderSum = 0, leftBorderSum = 0;  
+    for( int i = center; i >= left; i-- )  
+    {  
+        leftBorderSum += a[ i ];  
+        if( leftBorderSum > maxLeftBorderSum )  
+            maxLeftBorderSum = leftBorderSum;  
+    }  
+    int maxRightBorderSum = 0, rightBorderSum = 0;  
+    for( int j = center + 1; j <= right; j++ )  
+    {  
+        rightBorderSum += a[ j ];  
+        if( rightBorderSum > maxRightBorderSum )  
+            maxRightBorderSum = rightBorderSum;  
+    }  
+    return max3( maxLeftSum, maxRightSum, maxLeftBorderSum + maxRightBorderSum );  
+}  
+  
+/** 
+ * Driver for divide-and-conquer maximum contiguous 
+ * subsequence sum algorithm. 
+ */  
+int maxSubSum3( const vector<int> & a )  
+{  
+    return maxSumRec( a, 0, a.size( ) - 1 );  
+}  
