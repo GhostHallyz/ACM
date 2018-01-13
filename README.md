@@ -1,3 +1,3 @@
 # ACM
-algorithm
-hello git!
+algorithm!
+learning together...
